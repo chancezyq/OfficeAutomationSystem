@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper   
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"   
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="com.share.dao.DepartDao">
+<select id="findAllDepart" resultType="com.share.bean.DepartPojo">
+SELECT t_departinfo.t_departinfo_id,t_departinfo.t_departinfo_name,t_branchinfo.t_branchinfo_name,t_userinfo.t_userinfo_name,t_departinfo.t_departinfo_tel,t_departinfo.t_departinfo_mobiletel,t_departinfo.t_departinfo_faxes FROM t_departinfo JOIN t_branchinfo ON t_departinfo.t_branchinfo_id=t_branchinfo.t_branchinfo_id JOIN t_userinfo ON t_departinfo.t_userinfo_id=t_userinfo.t_userinfo_id
+</select>
+<update id="updetDepart" parameterType="com.share.bean.DepartBean">
+UPDATE t_departinfo SET t_branchinfo_id=#{t_branchinfo_id},t_departinfo_faxes=#{t_departinfo_faxes},t_departinfo_mobiletel=#{t_departinfo_mobiletel},t_departinfo_tel=#{t_departinfo_tel},t_userinfo_id=#{t_userinfo_id} WHERE t_departinfo_name=#{t_departinfo_name}
+</update>
+<insert id="addDepart" parameterType="com.share.bean.DepartBean">
+INSERT into t_departinfo(t_branchinfo_id,t_departinfo_faxes,t_departinfo_mobiletel,t_departinfo_tel,t_userinfo_id,t_departinfo_name) 
+values(#{t_branchinfo_id},#{t_departinfo_faxes},#{t_departinfo_mobiletel},#{t_departinfo_tel},#{t_userinfo_id},#{t_departinfo_name})
+</insert>
+<delete id="deleteDepart" parameterType="java.lang.String">
+delete from t_departinfo where t_departinfo_id=#{vlaue}
+</delete>
+
+</mapper>

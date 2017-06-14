@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper   
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"   
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="com.share.dao.LogDao">
+<insert id="addLog" parameterType="com.share.bean.LogBean">
+insert into t_operationlog(t_operationlog_id,t_operationlog_name,t_operationlog_username,t_operationlog_time,t_operationlog_content) 
+values(#{t_operationlog_id},#{t_operationlog_name},#{t_operationlog_username},#{t_operationlog_time},#{t_operationlog_content})
+</insert>
+<select id="findLog" parameterType="map" resultType="com.share.bean.LogBean">
+select * from t_operationlog
+<where>  
+  <if test="username != null and username != ''"> 
+    and username like '%${username}%'          
+  </if>  
+  </where>
+  limit #{startPos},#{pageSize}
+</select>
+ <select id="pageCounts" parameterType="map" resultType="Integer">   
+  select count(*) from t_operationlog  
+  <where>  
+  <if test="username != null and username != ''"> 
+    and username like '%${username}%'          
+  </if>  
+  </where>  
+ 
+</select>
+</mapper>

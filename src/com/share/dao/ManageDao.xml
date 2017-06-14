@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper   
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"   
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="com.share.dao.ManageDao">
+<select id="findManage" parameterType="java.lang.String" resultType="com.share.bean.ManageBean">
+SELECT t_manage.t_manage_id,t_manage.t_manage_name FROM t_userinfo JOIN t_roleinfo ON t_userinfo.t_roleinfo_id =t_roleinfo.t_roleinfo_id JOIN t_roleinfo_manage ON t_roleinfo.t_roleinfo_id= t_roleinfo_manage.t_roleinfo_id JOIN t_manage on t_roleinfo_manage.t_manage_id= t_manage.t_manage_id WHERE t_userinfo.t_userinfo_name = #{value}
+</select>
+</mapper>

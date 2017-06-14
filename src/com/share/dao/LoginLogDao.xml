@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper   
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"   
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="com.share.dao.LoginLogDao">
+	<!-- 插入登陆日志 -->
+	<insert id="loginLog" parameterType="com.share.bean.LoginLogBean">
+		insert into
+		t_loginlog(t_loginlog.t_userinfo_id,t_loginlog.t_loginlog_time,t_loginlog.t_loginlog_userip)
+		values(#{t_userinfo_id},#{t_loginlog_time},#{t_loginlog_userip})
+	</insert>
+	<!-- 查询所有登录日志 -->
+	<select id="loginLogShow" resultType="com.share.bean.LoginLogBean">
+		select
+		t_loginlog.t_loginlog_id,t_loginlog.t_loginlog_time,t_loginlog.t_loginlog_userip,t_userinfo.t_userinfo_name
+		from t_userinfo,t_loginlog where t_userinfo.t_userinfo_id =
+		t_loginlog.t_userinfo_id;
+	</select>
+</mapper>

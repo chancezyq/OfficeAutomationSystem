@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper   
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"   
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="com.share.dao.UserDao">
+	<resultMap type="com.share.bean.UserBean" id="userlist">
+		<id column="t_userinfo_id" property="t_userinfo_id" />
+		<result column="t_userinfo_name" property="t_userinfo_name" />
+		<result column="t_userinfo_password" property="t_userinfo_password" />
+		<result column="t_departinfo_id" property="t_departinfo_id" />
+		<result column="t_userinfo_gender" property="t_userinfo_gender" />
+		<result column="t_roleinfo_id" property="t_roleinfo_id" />
+		<result column="t_userstate_id" property="t_userstate_id" />
+	</resultMap>
+
+	<!-- 插入人员 -->
+	<insert id="userAdd" parameterType="com.share.bean.UserBean">
+		INSERT INTO T_USERINFO VALUES
+		(#{t_userinfo_id},#{t_userinfo_name},#{t_userinfo_password},#{t_departinfo_id},#{t_userinfo_gender},#{t_roleinfo_id},#{t_userstate_id})
+	</insert>
+	<!-- 查询人员 -->
+	<select id="userShow" resultMap="userlist">
+		SELECT * FROM T_USERINFO
+	</select>
+	<!-- 查询用户表条数 -->
+	<select id="userCountShow" resultType="int">
+		select count(*) from
+		t_userinfo
+	</select>
+	<!-- 删除用户 -->
+	<delete id="userDelete">
+		delete from t_userinfo where t_userinfo_id=#{id}
+	</delete>
+	<!-- 修改用户 -->
+	<update id="userUpdate" parameterType="com.share.bean.UserBean">
+		update t_userinfo set
+		t_userinfo_name=#{t_userinfo_name},t_userinfo_password=#{t_userinfo_password},t_departinfo_id=#{t_departinfo_id},t_userinfo_gender=#{t_userinfo_gender},t_roleinfo_id=#{t_roleinfo_id},t_userstate_id=#{t_userstate_id}
+		where t_userinfo_id=#{t_userinfo_id};
+	</update>
+	<!-- 按角色id 查询用户 -->
+	<select id= "findUser" parameterType="java.lang.String" resultType="com.share.bean.UserBean">
+	select * from t_userinfo where t_roleinfo_id = #{value}
+	</select> 
+	<!-- 按用户id 查询用户 -->
+	<select id= "findUserRole" parameterType="java.lang.String" resultType="com.share.bean.UserBean">
+	select * from t_userinfo where t_userinfo_id = #{value}
+	</select> 
+	
+	<!-- 分页SQL语句 -->
+	<select id="selectUsersByPage" resultMap="userlist">
+		select * from t_userinfo limit #{startPos},#{pageSize}
+	</select>
+	<!-- 取得记录的总数 -->
+	<select id="getUsersCount" resultType="int">
+		select count(*) from t_userinfo 
+	</select>
+	
+	<!-- 模糊查询 用户-->
+	<select id="userSearch" resultMap="userlist">
+		select * from t_userinfo where t_userinfo_name like concat(concat('%',#{t_userinfo_name},'%')) limit #{startPos},#{pageSize}
+	</select>
+		<!-- 取得模糊查询总数 -->
+	<select id="getUsersSearchCount" resultType="int">
+		select count(*) from t_userinfo where t_userinfo.t_userinfo_name like concat(concat('%',#{t_userinfo_name},'%'))
+	</select>
+</mapper>

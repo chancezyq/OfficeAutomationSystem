@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper   
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"   
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="com.share.dao.FileInfoDao">
+
+	<!-- 获取文件及相应附件详情并展示页面 -->
+	<select id="findFileDetailsInfo" resultType="com.share.bean.FileDetailsInfo">
+		SELECT
+		fo.t_fileinfo_id,fo.t_fileinfo_name,fo.t_fileinfo_owner,fo.t_fileinfo_createdate,ft.t_filetypeinfo_name,ft.t_filetypeinfo_image,fo.t_fileinfo_filepath,fo.t_fileinfo_ifdelete,fo.t_fileinfo_remark
+		FROM t_fileinfo AS fo JOIN t_filetypeinfo AS ft ON
+		fo.t_fileinfo_filetypeid =ft.t_fileinfo_filetypeid ORDER BY
+		fo.t_fileinfo_id ASC;
+	</select>
+
+	<!-- 获取数据库文件数量 -->
+	<select id="findAllfileCount" resultType="java.lang.Integer">
+		select count(*) from
+		t_fileinfo;
+	</select>
+
+	<!-- 获取需要修改文件的信息 -->
+	<select id="findUpdateFileinfo" resultType="com.share.bean.FileInfoBean">
+		select * from
+		t_fileinfo
+		where
+		t_fileinfo_id=#{t_fileinfo_id};
+	</select>
+
+	<!-- 修改文件信息 -->
+	<update id="updateFileinfo" parameterType="com.share.bean.FileInfoBean">
+		update t_fileinfo set
+		t_fileinfo_name=#{t_fileinfo_name},t_fileinfo_filetypeid=#{t_fileinfo_filetypeid},t_fileinfo_remark=#{t_fileinfo_remark},t_fileinfo_owner=#{t_fileinfo_owner},t_fileinfo_createdate=#{t_fileinfo_createdate},t_fileinfo_ifdelete=#{t_fileinfo_ifdelete}
+		where t_fileinfo_id=#{t_fileinfo_id};
+	</update>
+
+	<!-- 上传文件的信息添加 -->
+	<insert id="addFile" parameterType="com.share.bean.FileInfoBean">
+		INSERT INTO t_fileinfo
+		(t_fileinfo_id,t_fileinfo_name,t_fileinfo_filetypeid,t_fileinfo_remark,t_fileinfo_owner,t_fileinfo_createdate,t_fileinfo_filepath,t_fileinfo_ifdelete)
+		VALUES(#{t_fileinfo_id},#{t_fileinfo_name},#{t_fileinfo_filetypeid},#{t_fileinfo_remark},#{t_fileinfo_owner},#{t_fileinfo_createdate},#{t_fileinfo_filepath},#{t_fileinfo_ifdelete})
+	</insert>
+
+	<!-- 删除数据库文件信息 -->
+	<delete id="fileDelete">
+		delete from t_fileinfo where t_fileinfo_id=#{id}
+	</delete>
+
+
+	<!-- 把文件放入回收站 -->
+	<update id="ifDelete" parameterType="com.share.bean.FileInfoBean">
+		update t_fileinfo set t_fileinfo_ifdelete=#{t_fileinfo_ifdelete} where t_fileinfo_id=#{t_fileinfo_id};
+	</update>
+	<!-- 从回收站取回 -->
+	<update id="cancelDelete" parameterType="com.share.bean.FileInfoBean">
+		update t_fileinfo set t_fileinfo_ifdelete=#{t_fileinfo_ifdelete} where t_fileinfo_id=#{t_fileinfo_id};
+	</update>
+	
+	<!-- 搜索文件 -->
+	<select id="fileSearch" resultType="com.share.bean.FileDetailsInfo" parameterType="com.share.bean.FileDetailsInfo">
+		select * from t_fileinfo where t_fileinfo_name like concat(concat('%',#{t_fileinfo_name},'%'))
+	</select>
+
+</mapper>

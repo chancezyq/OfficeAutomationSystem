@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper   
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"   
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="com.share.dao.ScheduleDao">
+<select id="findSchedule" parameterType="com.share.bean.ScheduleOb" resultType="com.share.bean.MyScheduleBean">
+SELECT * FROM t_scheduleob JOIN t_schedule ON t_schedule.t_schedule_id=t_scheduleob.t_schedule_id WHERE t_scheduleob.t_branchinfo_id=#{t_branchinfo_id} OR t_scheduleob.t_userinfo_id=#{t_userinfo_id} OR t_scheduleob.t_departinfo_id=#{t_departinfo_id} or (t_schedule.t_schedule_begintime between #{t_schedule_begintime} and #{t_schedule_endtime})
+</select>
+</mapper>

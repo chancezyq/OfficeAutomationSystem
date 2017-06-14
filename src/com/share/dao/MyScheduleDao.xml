@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper   
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"   
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="com.share.dao.MyScheduleDao">
+	<!-- 获取我的所有日程 -->
+	<select id="findAllMySchedule" resultType="com.share.bean.MyScheduleBean">
+		select * from
+		t_schedule;
+	</select>
+
+	<!-- 获取我的所有日程的数量 -->
+	<select id="findAllMyScheduleCount" parameterType="java.lang.String"
+		resultType="int">
+		select count(*) from t_schedule;
+	</select>
+
+	<!-- 向数据库新添加我的日程 -->
+	<insert id="addMySchedule" parameterType="com.share.bean.MyScheduleBean">
+		insert into t_schedule
+		(t_schedule_id,t_schedule_title,t_schedule_address,t_meetinginfo_id,t_schedule_begintime,t_schedule_endtime,
+		t_schedule_content,t_schedule_createuser,t_schedule_createtime,t_schedule_ifprivate)
+		values(#{t_schedule_id},#{t_schedule_title},#{t_schedule_address},#{t_meetinginfo_id},#{t_schedule_begintime},#{t_schedule_endtime},
+		#{t_schedule_content},#{t_schedule_createuser},#{t_schedule_createtime},#{t_schedule_ifprivate});
+	</insert>
+
+	<!-- 查询需要修改的日程内容 -->
+	<select id="findUpdate" resultType="com.share.bean.MyScheduleBean">
+		select * from t_schedule
+		where t_schedule_id=#{t_schedule_id};
+	</select>
+	<!-- 修改我的日程内容 -->
+	<update id="updateMySchedule" parameterType="com.share.bean.MyScheduleBean">
+		update t_schedule
+		set
+		t_schedule_title=#{t_schedule_title},t_schedule_address=#{t_schedule_address},t_meetinginfo_id=#{t_meetinginfo_id},t_schedule_begintime=#{t_schedule_begintime},t_schedule_endtime=#{t_schedule_endtime},t_schedule_content=#{t_schedule_content},t_schedule_createtime=#{t_schedule_createtime},t_schedule_ifprivate=#{t_schedule_ifprivate}
+		where t_schedule_id=#{t_schedule_id};
+	</update>
+
+	<!-- 删除我的日程信息 -->
+	<delete id="deleteMySchedule" parameterType="java.lang.Integer">
+		delete from
+		t_schedule where
+		t_schedule_id=#{t_schedule_id};
+	</delete>
+	<!-- 获取我的所有日程并进行分页显示 -->
+	<select id="findAllMySchedulePage" resultType="com.share.bean.MyScheduleBean">
+		select * from
+		t_schedule limit #{startPos},#{pageSize};
+	</select>
+</mapper>

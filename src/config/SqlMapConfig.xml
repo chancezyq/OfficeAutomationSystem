@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration    
+PUBLIC "-//ibatis.apache.org//DTD Config 3.0//EN"    
+"http://ibatis.apache.org/dtd/ibatis-3-config.dtd">
+
+<configuration>
+
+	<mappers>
+		<!-- mapper需要修改 -->
+		<mapper resource="com/share/dao/TestDao.xml" />
+		<mapper resource="com/share/dao/ManageDao.xml" />
+		<mapper resource="com/share/dao/PowerDao.xml" />
+		<mapper resource="com/share/dao/DepartDao.xml" />
+		<mapper resource="com/share/dao/SchduleDao.xml"/>
+		<mapper resource="com/share/dao/RoleInfoDao.xml"/>
+		<mapper resource="com/share/dao/LogDao.xml"/>
+		<!-- 人员管理 -->
+		<mapper resource="com/share/dao/UserDao.xml" />
+		<mapper resource="com/share/dao/BranchManagementDao.xml" />
+		<!-- 便签管理 -->
+		<mapper resource="com/share/dao/MyNoteDao.xml" />
+		<!-- 我的日程管理sql -->
+		<mapper resource="com/share/dao/MyScheduleDao.xml" />
+		<!-- 文件信息管理sql -->
+		<mapper resource="com/share/dao/FileInfoDao.xml" />
+		
+	</mappers>
+
+
+</configuration>

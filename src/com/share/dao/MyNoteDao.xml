@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper   
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"   
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="com.share.dao.MyNoteDao">
+	<resultMap type="com.share.bean.MyNoteBean" id="mynotelist">
+		<id column="t_mynote_id" property="t_mynote_id" />
+		<result column="t_mynote_title" property="t_mynote_title" />
+		<result column="t_mynote_content" property="t_mynote_content" />
+		<result column="t_mynote_createtime" property="t_mynote_createtime" />
+		<result column="t_mynote_createuser" property="t_mynote_createuser" />
+	</resultMap>
+
+	<!-- 显示便签 -->
+	<select id="myNoteShow" resultMap="mynotelist">
+		select * from t_mynote
+	</select>
+	<!-- 显示便签总条数 -->
+	<select id="myNoteCount" resultType="int">
+		select count(*) from
+		t_mynote
+	</select>
+	<!-- 添加便签 -->
+	<insert id="myNoteAdd" parameterType="com.share.bean.MyNoteBean">
+		insert into t_mynote
+		values(#{t_mynote_id},#{t_mynote_title},#{t_mynote_content},now(),#{t_mynote_createuser})
+	</insert>
+	<!-- 删除便签 -->
+	<delete id="myNoteDelete">
+		delete from t_mynote where t_mynote_id = #{id}
+	</delete>
+	<!-- 修改便签 -->
+	<update id="myNoteUpdate" parameterType="com.share.bean.MyNoteBean">
+		update t_mynote set
+		t_mynote_title=#{t_mynote_title},t_mynote_content=#{t_mynote_content}
+		where t_mynote_id=#{t_mynote_id}
+	</update>
+</mapper>

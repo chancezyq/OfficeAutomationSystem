@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper   
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"   
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="com.share.dao.TestDao">
+<resultMap type="com.share.bean.UserBean" id="userlist">
+	<id column="t_userinfo_id" property="t_userinfo_id"/>
+	<result column="t_userinfo_name" property="t_userinfo_name"/>
+	<result column="t_userinfo_password" property="t_userinfo_password"/>
+	<result column="t_departinfo_id" property="t_departinfo_id"/>
+	<result column="t_userinfo_gender" property="t_userinfo_gender"/>
+	<result column="t_roleinfo_id" property="t_roleinfo_id"/>
+	<result column="t_userstate_id" property="t_userstate_id"/>
+</resultMap>
+
+<select id="test" resultMap="userlist">
+SELECT * FROM T_USERINFO
+</select>
+
+</mapper>

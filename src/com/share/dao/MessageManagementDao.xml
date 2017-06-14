@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper   
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"   
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="com.share.dao.MessageManagementDao">
+
+	<!-- 获取登录用户的userinfoid -->
+	<select id="findMessageUserInfoid" resultType="java.lang.Integer">
+		select
+		t_userinfo_id from t_userinfo
+		where t_userinfo_name=#{username};
+	</select>
+	<!-- 获取当前登录用户发出消息总数 -->
+	<select id="findSendCount" resultType="java.lang.Integer">
+		select count(*) from
+		t_message where t_userinfo_id =#{t_userinfo_id};
+	</select>
+	<!-- 获取当前登录用户发出的消息具体内容 -->
+	<select id="findUserSendMessage" resultType="com.share.bean.MessageDetailsBean">
+		SELECT
+		ma.t_message_id,ma.t_message_title,ma.t_message_content,mat.t_messagetype_name,mat.t_messagetype_desc,ma.t_message_begintime,ma.t_message_endtime,ma.t_message_ifpublish,t_userinfo_name,ma.t_message_recordtime,ma.t_userinfo_id,ma.t_messagetype_id
+		FROM t_message as ma JOIN t_messagetype AS mat ON
+		ma.t_messagetype_id=mat.t_messagetype_id JOIN t_userinfo AS ui on
+		ui.t_userinfo_id = ma.t_userinfo_id where ma.t_userinfo_id
+		=#{t_userinfo_id};
+	</select>
+	<!-- 获取当前用户收到的消息总数 -->
+	<select id="findHoldCount" resultType="java.lang.Integer">
+		select count(*) from
+		t_message where t_userinfo_id not in(#{t_userinfo_id});
+	</select>
+	<!-- 获取当前用户收到的消息具体内容 -->
+	<select id="findUserHoldMessage" resultType="com.share.bean.MessageDetailsBean">
+		SELECT
+		ma.t_message_id,ma.t_message_title,ma.t_message_content,mat.t_messagetype_name,mat.t_messagetype_desc,ma.t_message_begintime,ma.t_message_endtime,ma.t_message_ifpublish,t_userinfo_name,ma.t_message_recordtime,ma.t_userinfo_id,ma.t_messagetype_id
+		FROM t_message as ma JOIN t_messagetype AS mat ON
+		ma.t_messagetype_id=mat.t_messagetype_id JOIN t_userinfo AS ui on
+		ui.t_userinfo_id = ma.t_userinfo_id where ma.t_userinfo_id not in
+		(#{t_userinfo_id}) and t_message_ifpublish not in (2);
+	</select>
+	<!-- 获取消息类型信息 -->
+	<select id="findMessageType" resultType="com.share.bean.MessageTypeBean">
+		select * from
+		t_messagetype;
+	</select>
+	<!-- 获取消息表中的消息编号最大值 -->
+	<select id="findMaxMessageid" resultType="java.lang.Integer">
+		select
+		max(t_message_id) from
+		t_message;
+	</select>
+	<!-- 发送消息，插入数据库消息 -->
+	<insert id="sendMessages" parameterType="com.share.bean.MessageBean">
+		insert into t_message
+		(t_message_id,t_message_title,t_message_content,t_messagetype_id,t_message_begintime,t_message_endtime,t_userinfo_id,t_message_ifpublish,t_message_recordtime)
+		values(#{t_message_id},#{t_message_title},#{t_message_content},#{t_messagetype_id},#{t_message_begintime},#{t_message_endtime},#{t_userinfo_id},#{t_message_ifpublish},#{t_message_recordtime});
+	</insert>
+	<!-- 搜索需要修改的消息信息 -->
+	<select id="selectUpdateMessage" resultType="com.share.bean.MessageBean"
+		parameterType="java.lang.Integer">
+		select * from t_message where
+		t_message_id=#{t_message_id};
+	</select>
+	<!-- 获取本次修改消息的类型 -->
+	<select id="selectUpdateMessageType" resultType="java.lang.String">
+		select
+		t_messagetype_name from t_messagetype where
+		t_messagetype_id=#{t_messagetype_id};
+	</select>
+	<!-- 修改登陆用户发出的的消息 -->
+	<update id="updateMessages" parameterType="com.share.bean.MessageBean">
+		update t_message set
+		t_message_title=#{t_message_title},t_message_content=#{t_message_content},t_messagetype_id=#{t_messagetype_id},t_message_begintime=#{t_message_begintime},t_message_endtime=#{t_message_endtime},t_message_ifpublish=#{t_message_ifpublish},t_message_recordtime=#{t_message_recordtime}
+		where t_message_id=#{t_message_id};
+	</update>
+	<!-- 删除登陆用户发出的消息 -->
+	<delete id="deleteMessage" parameterType="java.lang.Integer">
+		delete from t_message
+		where
+		t_message_id=#{t_message_id};
+	</delete>
+</mapper>

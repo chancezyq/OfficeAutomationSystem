@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+	http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context-4.0.xsd
+	http://www.springframework.org/schema/aop
+	http://www.springframework.org/schema/aop/spring-aop-4.0.xsd">
+
+	<!-- 包扫描:com.share.aspect下所有类都自动产生对象 -->
+	<context:component-scan base-package="com.share.service,com.share.aspect">
+		<!-- 配置访问com.share.controller包下的切点时，都要经过(切面)动态代理 -->
+		<context:include-filter type="annotation" expression="org.aspectj.lang.annotation.Aspect"/>
+	</context:component-scan>
+	
+	<!-- 自己定义的目标对象bean -->
+	<bean id="DepartService" class="com.share.service.DepartService"/>
+	<!-- 启动@AspectJ支持:配置SpringAOP支持动态代理及AOP的注解方式  -->
+	<aop:aspectj-autoproxy  />
+</beans>

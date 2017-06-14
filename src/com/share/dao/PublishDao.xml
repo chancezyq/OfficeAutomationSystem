@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper   
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"   
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="com.share.dao.PublishDao">
+	<!-- 获取公告详细详细信息 -->
+	<select id="selectPublish" resultType="com.share.bean.MessageDetailsBean">
+		SELECT
+		ma.t_message_id,ma.t_message_title,ma.t_message_content,mat.t_messagetype_name,mat.t_messagetype_desc,ma.t_message_begintime,ma.t_message_endtime,ma.t_message_ifpublish,t_userinfo_name,ma.t_message_recordtime,ma.t_userinfo_id,ma.t_messagetype_id
+		FROM t_message as ma JOIN t_messagetype AS mat ON
+		ma.t_messagetype_id=mat.t_messagetype_id JOIN t_userinfo AS ui on
+		ui.t_userinfo_id = ma.t_userinfo_id where t_message_ifpublish not
+		in(2);
+	</select>
+	<!-- 获取具体公告消息详细信息 -->
+	<select id="getPublishes" resultType="com.share.bean.MessageDetailsBean">
+		SELECT
+		ma.t_message_id,ma.t_message_title,ma.t_message_content,mat.t_messagetype_name,mat.t_messagetype_desc,ma.t_message_begintime,ma.t_message_endtime,ma.t_message_ifpublish,t_userinfo_name,ma.t_message_recordtime,ma.t_userinfo_id,ma.t_messagetype_id
+		FROM t_message as ma JOIN t_messagetype AS mat ON
+		ma.t_messagetype_id=mat.t_messagetype_id JOIN t_userinfo AS ui on
+		ui.t_userinfo_id = ma.t_userinfo_id where
+		ma.t_message_id=#{t_message_id} and t_message_ifpublish not in (2);
+	</select>
+	<!-- 获取已发布的公告信息总数 -->
+	<select id="getPublishCounts" resultType="java.lang.Integer">
+		select count(*) from
+		t_message where t_message_ifpublish not in (2);
+	</select>
+</mapper>

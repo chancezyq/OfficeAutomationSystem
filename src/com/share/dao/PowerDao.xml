@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper   
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"   
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="com.share.dao.PowerDao">
+<select id="findPower" parameterType="java.lang.String" resultType="com.share.bean.PowerBean">
+SELECT t_power.t_power_id,t_power.t_power_name,t_power.t_power_uri FROM t_manage JOIN t_manage_power ON t_manage.t_manage_id=t_manage_power.t_manage_id JOIN t_power ON t_power.t_power_id=t_manage_power.t_power_id WHERE t_manage.t_manage_name=#{value}
+</select>
+</mapper>

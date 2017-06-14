@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper   
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"   
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+
+<mapper namespace="com.share.dao.BranchManagementDao">
+	<!-- 获取全部机构信息 -->
+	<select id="findAllBranch" resultType="com.share.bean.BranchManagement">
+		SELECT * FROM
+		t_branchinfo;
+	</select>
+	<!-- 获取机构数量 -->
+	<select id="findAllBranchCount" parameterType="java.lang.String"
+		resultType="int">
+		select count(*) FROM t_branchinfo;
+	</select>
+	<!-- 添加机构 -->
+	<insert id="addBranch" parameterType="com.share.bean.BranchManagement">
+		insert into
+		t_branchinfo(t_branchinfo_id,t_branchinfo_name,t_branchinfo_shortname)
+		values(#{t_branchinfo_id},#{t_branchinfo_name},#{t_branchinfo_shortname});
+	</insert>
+	<!-- 修改机构信息 -->
+	<update id="updateBranch" parameterType="com.share.bean.BranchManagement">
+		update t_branchinfo set
+		t_branchinfo_name=#{t_branchinfo_name},t_branchinfo_shortname=#{t_branchinfo_shortname}
+		where t_branchinfo_id=#{t_branchinfo_id} ;
+	</update>
+	<!-- 删除机构信息 -->
+	<delete id="deleteBranch" parameterType="java.lang.Integer">
+		delete from t_branchinfo
+		where t_branchinfo_id=#{t_branchinfo_id};
+	</delete>
+	<!-- 获取全部机构信息 -->
+	<select id="findAllBranchPage" resultType="com.share.bean.BranchManagement">
+		SELECT * FROM
+		t_branchinfo limit #{startPos},#{pageSize};
+	</select>
+	<!-- 获取条件查询机构的信息 -->
+	<select id="searchBranch" resultType="com.share.bean.BranchManagement">
+		select * from t_branchinfo
+		where
+		t_branchinfo_name like
+		concat('%','${searchbranch}','%' ) limit
+		#{startPos},#{pageSize};
+	</select>
+	<!-- 获取条件查询机构的总数量 -->
+	<select id="searchBranchCount" resultType="java.lang.Integer">
+		select count(*) from
+		t_branchinfo where t_branchinfo_name
+		like
+		concat('%','${searchbranch}','%' );
+	</select>
+	<!-- 删除多项选择的机构 -->
+	<delete id="deleteAllBranch" parameterType="String">
+		delete from
+		t_branchinfo where t_branchinfo_id in
+		<foreach collection="array" item="item" index="index" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>
+	</delete>
+
+</mapper>
